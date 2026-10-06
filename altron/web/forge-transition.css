@@ -1,0 +1,21 @@
+.forge-transition {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 13px;
+  color: #f4f1ea;
+  background: rgba(7, 7, 8, .97);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .24s ease, visibility .24s ease;
+}
+.forge-transition.active { opacity: 1; visibility: visible; }
+.transition-core { color: #f0444f; font: 54px "IBM Plex Mono", monospace; animation: core-arrive .55s ease both; }
+.forge-transition p { margin: 0; color: #f0444f; font: 12px "IBM Plex Mono", monospace; }
+.forge-transition strong { font: 17px "IBM Plex Mono", monospace; text-align: center; }
+.forge-transition span { color: #9ca3ad; font: 10px "IBM Plex Mono", monospace; }
+@keyframes core-arrive { from { opacity: 0; transform: scale(.86); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .forge-transition, .transition-core { transition: none; animation: none; } }

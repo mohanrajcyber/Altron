@@ -1,0 +1,273 @@
+/* ALTRON Mission Control — observability layer over existing Chat/IDE/Flows runtime */
+
+.mc {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+}
+
+.mc-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-2);
+}
+
+.mc-nav {
+  display: flex;
+  gap: 14px;
+}
+.mc-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  padding: 4px 2px;
+  border-bottom: 2px solid transparent;
+}
+.mc-nav a.on,
+.mc-nav a:hover {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+.mc-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mc-mark {
+  color: var(--accent);
+  font-size: 20px;
+}
+.mc-title {
+  font-family: var(--mono);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  font-size: 13px;
+}
+.mc-sub {
+  color: var(--faint);
+  font-size: 11px;
+  font-family: var(--mono);
+}
+
+.mc-header-stats {
+  margin-left: auto;
+  display: flex;
+  gap: 22px;
+}
+.mc-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+}
+.mc-stat-label {
+  font-size: 9.5px;
+  color: var(--faint);
+  letter-spacing: 0.08em;
+  font-family: var(--mono);
+}
+.mc-stat-val {
+  font-size: 12.5px;
+  font-family: var(--mono);
+  color: var(--text);
+}
+.mc-stat-val.ok { color: var(--ok); }
+.mc-stat-val.warn { color: var(--warn); }
+.mc-stat-val.bad { color: var(--accent); }
+
+.mc-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr);
+  gap: 16px;
+  padding: 16px 20px;
+}
+
+.mc-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.mc-card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  padding: 14px 16px;
+}
+.mc-card-grow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.mc-card-grow .mc-list {
+  flex: 1;
+  overflow: auto;
+}
+
+.mc-card-head {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+  margin-bottom: 10px;
+}
+
+.mc-mission-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+.mc-mission-detail {
+  color: var(--muted);
+  font-size: 12.5px;
+  margin-top: 4px;
+}
+.mc-mission-meta {
+  margin-top: 8px;
+  display: flex;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--faint);
+}
+
+.mc-progress-track {
+  margin-top: 10px;
+  height: 6px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+}
+.mc-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.mc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mc-empty {
+  color: var(--faint);
+  font-size: 12px;
+  font-family: var(--mono);
+}
+
+.mc-row {
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  padding: 8px 10px;
+  font-size: 12.5px;
+}
+.mc-row-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.mc-row-title {
+  font-weight: 600;
+}
+.mc-row-state {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  color: var(--faint);
+}
+.mc-row-state.running { color: var(--warn); }
+.mc-row-state.ok { color: var(--ok); }
+.mc-row-state.failed { color: var(--accent); }
+.mc-row-detail {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+.mc-row .mc-progress-track {
+  margin-top: 6px;
+  height: 4px;
+}
+
+.mc-health {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.mc-health-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  padding: 6px 8px;
+  font-size: 11.5px;
+}
+.mc-health-name { color: var(--muted); }
+.mc-health-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--faint);
+  flex: none;
+}
+.mc-health-dot.ok { background: var(--ok); }
+.mc-health-dot.bad { background: var(--accent); }
+.mc-health-item-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mc-activity-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 12px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
+}
+.mc-activity-row:last-child { border-bottom: none; }
+.mc-activity-icon {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 6px;
+  background: var(--faint);
+}
+.mc-activity-icon.ok { background: var(--ok); }
+.mc-activity-icon.err { background: var(--accent); }
+.mc-activity-icon.warn { background: var(--warn); }
+.mc-activity-icon.chat { background: var(--brass); }
+.mc-activity-text { color: var(--text); }
+.mc-activity-time { color: var(--faint); font-family: var(--mono); font-size: 10px; }
+
+.mc-bottom {
+  padding: 8px 20px;
+  border-top: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 11px;
+  display: flex;
+  gap: 8px;
+}
+.mc-foot-sep { color: var(--line); }
+
+@media (max-width: 980px) {
+  .mc-body {
+    grid-template-columns: 1fr;
+  }
+  .mc-header-stats {
+    display: none;
+  }
+}

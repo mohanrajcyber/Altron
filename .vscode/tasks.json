@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run ALTRON startup check",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				".\\START_ALTRON.bat"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

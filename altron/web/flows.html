@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ALTRON Flows</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/flows.css" />
+  </head>
+  <body>
+    <div class="af" id="afApp">
+      <header class="af-top">
+        <nav class="af-nav">
+          <a href="/">Chat</a>
+          <a href="/ide" target="_blank" rel="noopener">IDE</a>
+          <a class="on" href="/flows">Flows</a>
+        </nav>
+        <div class="af-brand">
+          <span class="af-mark">◈</span>
+          <div>
+            <div class="af-title">ALTRON FLOWS</div>
+            <div class="af-sub" id="afFlowMeta">No flow loaded</div>
+            <div class="af-ai-badge" id="afAiBadge" hidden>AI-GENERATED</div>
+          </div>
+        </div>
+        <div class="af-toolbar">
+          <span class="af-pill" id="afSaveState">Ready</span>
+          <button type="button" class="af-btn" id="afUndo" title="Undo">↶</button>
+          <button type="button" class="af-btn" id="afRedo" title="Redo">↷</button>
+          <button type="button" class="af-btn" id="afHistoryBtn" title="Version history">🕘 History</button>
+          <button type="button" class="af-btn" id="afHintsBtn" title="AI compile hints">💡 Hints</button>
+          <button type="button" class="af-btn" id="afNew">＋ New</button>
+          <button type="button" class="af-btn primary" id="afSave">Save</button>
+          <button type="button" class="af-btn run" id="afRun">▶ Run</button>
+          <button type="button" class="af-btn stop" id="afStop" disabled>■ Stop</button>
+        </div>
+      </header>
+
+      <div class="af-modal" id="afHistoryModal" hidden>
+        <div class="af-modal-box">
+          <div class="af-modal-head">
+            <span>Version History</span>
+            <button type="button" id="afHistoryClose">✕</button>
+          </div>
+          <div class="af-modal-body" id="afHistoryList">Loading…</div>
+        </div>
+      </div>
+
+      <div class="af-modal" id="afHintsModal" hidden>
+        <div class="af-modal-box">
+          <div class="af-modal-head">
+            <span>DSPy Compile Hints (from judged failures)</span>
+            <button type="button" id="afHintsClose">✕</button>
+          </div>
+          <pre class="af-modal-body" id="afHintsBody">Loading…</pre>
+        </div>
+      </div>
+
+      <div class="af-body">
+        <aside class="af-left">
+          <div class="af-pane-head">FLOWS</div>
+          <div class="af-flow-list" id="afFlowList"></div>
+          <div class="af-pane-head">NODE LIBRARY</div>
+          <input class="af-search" id="afNodeSearch" type="search" placeholder="Search nodes…" />
+          <div class="af-categories" id="afCategories"></div>
+          <div class="af-pane-head">TRUSTED PATHS</div>
+          <div class="af-roots" id="afRoots"></div>
+          <div class="af-root-add">
+            <input id="afRootIn" type="text" placeholder="C:\Users\…\folder" />
+            <button type="button" id="afRootAdd">Trust</button>
+          </div>
+        </aside>
+
+        <section class="af-center">
+          <div class="af-flow-bar">
+            <input id="afFlowName" type="text" value="Untitled flow" />
+            <div class="af-zoom">
+              <button type="button" id="afZoomOut">−</button>
+              <span id="afZoomPct">100%</span>
+              <button type="button" id="afZoomIn">+</button>
+              <button type="button" id="afFit">Fit</button>
+            </div>
+          </div>
+          <div class="af-viewport" id="afViewport">
+            <div class="af-world" id="afWorld">
+              <svg class="af-edges" id="afEdges"></svg>
+              <div class="af-nodes" id="afNodes"></div>
+            </div>
+            <canvas class="af-minimap" id="afMinimap" width="160" height="100"></canvas>
+          </div>
+          <div class="af-bottom" id="afBottom">
+            <div class="af-tabs">
+              <button type="button" class="on" data-tab="log">Execution Log</button>
+              <button type="button" data-tab="vars">Variables</button>
+              <button type="button" data-tab="history">Run History</button>
+              <button type="button" data-tab="issues">Issues</button>
+              <span class="af-grow"></span>
+              <button type="button" class="af-collapse" id="afBottomToggle" title="Collapse panel">▾</button>
+            </div>
+            <pre class="af-panel" id="afPanel">Build a flow · drag nodes · connect handles · Save · Run.</pre>
+          </div>
+        </section>
+
+        <aside class="af-right">
+          <div class="af-pane-head">NODE INSPECTOR</div>
+          <div id="afInspectEmpty" class="af-empty">Select a node on the canvas to configure it.</div>
+          <div id="afInspect" hidden>
+            <div class="af-inspect-meta" id="afInspectMeta"></div>
+            <div class="af-inspect-tabs">
+              <button type="button" class="on" data-itab="config">Config</button>
+              <button type="button" data-itab="io">I/O</button>
+            </div>
+            <div id="afInspectConfig">
+              <div class="af-field"><label>Name</label><input id="afNodeLabel" type="text" /></div>
+              <div class="af-field"><label>Description</label><input id="afNodeDesc" type="text" /></div>
+              <div id="afNodeFields"></div>
+            </div>
+            <div id="afInspectIo" hidden>
+              <div class="af-field"><label>Inputs</label><pre id="afIoIn" class="af-panel" style="min-height:60px;max-height:120px;border:1px solid var(--af-line)"></pre></div>
+              <div class="af-field"><label>Outputs</label><pre id="afIoOut" class="af-panel" style="min-height:60px;max-height:120px;border:1px solid var(--af-line)"></pre></div>
+            </div>
+            <div class="af-inspect-actions">
+              <button type="button" id="afTestNode">Test Node</button>
+              <button type="button" id="afDupNode">Duplicate</button>
+              <button type="button" class="danger" id="afDelNode">Delete</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="af-status">
+        <span>ALTRON FLOWS v1</span>
+        <span id="afStatus">Ready</span>
+        <span id="afMode">Local Mode</span>
+        <span id="afTrusted">Trusted Paths</span>
+        <span class="af-grow"></span>
+        <span id="afErrors">No errors</span>
+      </footer>
+    </div>
+    <div class="af-ctx" id="afCtx"></div>
+    <script src="/assets/flows.js"></script>
+  </body>
+</html>

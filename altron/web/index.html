@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ALTRON</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="stylesheet" href="/assets/forge-transition.css?v=transition-1" />
+  </head>
+  <body>
+    <div class="app" id="app">
+      <aside class="rail" id="rail">
+        <div class="brand">
+          <span class="mark" aria-hidden="true"></span>
+          <div>
+            <div class="word">ALTRON</div>
+            <div class="sub">Command core</div>
+          </div>
+        </div>
+        <button class="new" id="newChat" type="button">New thread</button>
+        <div class="rail-label">Threads</div>
+        <nav class="threads" id="threads" aria-label="Threads"></nav>
+        <div class="rail-foot">
+          <div class="hint">Enter send · Shift+Enter line · Ctrl+K new</div>
+        </div>
+      </aside>
+
+      <main class="stage">
+        <header class="top">
+          <button class="ghost" id="menuBtn" type="button" aria-label="Open threads">☰</button>
+          <div class="top-title" id="topTitle">New thread</div>
+          <button class="ghost" id="ideBtn" type="button" title="ALTRON IDE">IDE</button>
+          <button class="ghost" id="flowsBtn" type="button" title="ALTRON Flows">Flows</button>
+          <button class="ghost" id="forgeBtn" type="button" title="ALTRON Forge">Forge</button>
+          <div class="status" id="status">
+            <span class="dot" id="statusDot"></span>
+            <span id="statusText">Connecting</span>
+          </div>
+        </header>
+
+        <section class="ide-panel" id="idePanel" hidden>
+          <div class="ide-menubar">
+            <span class="ide-brand">ALTRON IDE</span>
+            <div class="ide-menu-actions">
+              <button class="ghost" data-ide-cmd="quickOpen" type="button">File</button>
+              <button class="ghost" data-ide-cmd="save" type="button">Save</button>
+              <button class="ghost" data-ide-cmd="run" type="button">Run ▶</button>
+              <button class="ghost" data-ide-cmd="stop" type="button">Stop ■</button>
+              <button class="ghost" data-ide-cmd="terminal" type="button">Terminal</button>
+              <button class="ghost" data-ide-cmd="palette" type="button">Agent</button>
+            </div>
+            <span class="composer-meta" id="ideMeta">Ready</span>
+            <button class="ghost" id="ideClosePanel" type="button">Close</button>
+          </div>
+          <div class="ide-main-grid" id="ideBody">
+            <aside class="ide-explorer">
+              <div class="ide-pane-label">
+                Explorer
+                <span class="ide-pane-tools">
+                  <button class="ghost tiny" id="ideNewFile" type="button" title="New file">＋</button>
+                  <button class="ghost tiny" id="ideNewFolder" type="button" title="New folder">📁</button>
+                  <button class="ghost tiny" id="ideRefreshTree" type="button" title="Refresh">↻</button>
+                </span>
+              </div>
+              <div class="ide-tree" id="ideTree">Loading…</div>
+              <div class="ide-git-pane" id="ideGitPane">
+                <div class="ide-pane-label">Git <span id="ideGitBranch"></span></div>
+                <div class="ide-git-list" id="ideGitList"></div>
+                <div class="ide-git-actions">
+                  <input id="ideGitMsg" type="text" placeholder="Commit message" />
+                  <button class="ghost tiny" id="ideGitCommit" type="button">Commit</button>
+                  <button class="ghost tiny" id="ideGitPull" type="button">Pull</button>
+                  <button class="ghost tiny" id="ideGitPush" type="button">Push</button>
+                </div>
+              </div>
+            </aside>
+            <section class="ide-center">
+              <div class="ide-tabs" id="ideTabs"></div>
+              <div class="ide-active-path" id="ideActivePath">no file</div>
+              <div class="ide-monaco" id="ideMonaco"></div>
+              <div class="ide-bottom" id="ideBottom">
+                <div class="ide-bottom-tabs">
+                  <button type="button" class="on" data-bottom="terminal">Terminal</button>
+                  <button type="button" data-bottom="problems">Problems</button>
+                  <button type="button" data-bottom="output">Output</button>
+                  <button type="button" data-bottom="debug">Debug</button>
+                  <button type="button" class="ghost tiny" id="ideTermNew" title="New terminal">＋</button>
+                </div>
+                <div class="ide-bottom-body">
+                  <div class="ide-term" id="ideTerm" data-pane="terminal"></div>
+                  <pre class="ide-out" id="ideProblems" data-pane="problems" hidden></pre>
+                  <pre class="ide-out" id="ideOut" data-pane="output" hidden></pre>
+                  <pre class="ide-out" id="ideDebug" data-pane="debug" hidden></pre>
+                </div>
+              </div>
+            </section>
+            <aside class="ide-agent">
+              <div class="ide-pane-label">ALTRON Agent</div>
+              <div class="ide-agent-modes" id="ideAgentModes">
+                <button type="button" class="on" data-mode="ASK">Ask</button>
+                <button type="button" data-mode="PLAN">Plan</button>
+                <button type="button" data-mode="EDIT">Edit</button>
+                <button type="button" data-mode="DEBUG">Debug</button>
+                <button type="button" data-mode="RUN">Run</button>
+              </div>
+              <div class="ide-agent-log" id="ideAgentLog"></div>
+              <div class="ide-diffs" id="ideDiffs"></div>
+              <div class="ide-agent-compose">
+                <textarea id="ideAgentIn" rows="3" placeholder="Ask ALTRON about this code…"></textarea>
+                <button class="send" id="ideAgentSend" type="button">Send</button>
+              </div>
+            </aside>
+          </div>
+          <div class="ide-statusbar" id="ideStatusBar">
+            <span>ALTRON</span>
+            <span id="ideSbGit">Git</span>
+            <span id="ideSbLang">—</span>
+            <span id="ideSbCursor">Ln —</span>
+            <span id="ideSbState">Ready</span>
+          </div>
+          <div class="ide-overlay" id="ideOverlay" hidden>
+            <div class="ide-palette" id="idePalette">
+              <input id="idePaletteIn" type="text" placeholder="Type a command or file…" autocomplete="off" />
+              <div class="ide-palette-list" id="idePaletteList"></div>
+            </div>
+          </div>
+          <div class="ide-ctx" id="ideCtx" hidden></div>
+        </section>
+
+        <section class="board" id="board">
+          <div class="empty" id="empty">
+            <div class="empty-word">ALTRON</div>
+            <p class="empty-lead">
+              Not a chatbot skin. A core that remembers, judges, and can act on this PC.
+            </p>
+            <div class="starters" id="starters"></div>
+          </div>
+          <div class="log" id="log" hidden></div>
+        </section>
+
+        <footer class="dock">
+          <form class="composer" id="form">
+            <textarea
+              id="input"
+              rows="1"
+              placeholder="Command ALTRON…"
+              autocomplete="off"
+            ></textarea>
+            <div class="composer-bar">
+              <span class="composer-meta" id="composerMeta">Ready</span>
+              <button class="icon" id="micBtn" type="button" title="Speak to ALTRON">Mic</button>
+              <button class="icon" id="speakBtn" type="button" title="Read replies aloud">Hear</button>
+              <button class="stop" id="stopBtn" type="button" hidden>Stop</button>
+              <button class="send" id="sendBtn" type="submit">Send</button>
+            </div>
+          </form>
+        </footer>
+      </main>
+
+      <aside class="inspect" id="inspect">
+        <div class="inspect-block">
+          <div class="inspect-label">Core</div>
+          <dl class="kv" id="coreKv"></dl>
+        </div>
+        <div class="inspect-block">
+          <div class="inspect-label">Trace</div>
+          <div class="trace" id="trace">idle</div>
+        </div>
+        <div class="inspect-block">
+          <div class="inspect-label">Judgments</div>
+          <div class="mem" id="traces"></div>
+        </div>
+        <div class="inspect-block">
+          <div class="inspect-label">Identity</div>
+          <div class="mem" id="identity"></div>
+        </div>
+        <div class="inspect-block grow">
+          <div class="inspect-label">Memory</div>
+          <div class="mem" id="mem"></div>
+        </div>
+      </aside>
+    </div>
+    <section class="forge-transition" id="forgeTransition" aria-live="assertive" aria-hidden="true">
+      <div class="transition-core" aria-hidden="true">△</div>
+      <p>ALTRON // FORGE</p>
+      <strong id="forgeTransitionTitle">BUILD REQUEST DETECTED</strong>
+      <span id="forgeTransitionStage">INITIALIZING FORGE</span>
+    </section>
+    <script src="/assets/ide.js?v=forge-open-1"></script>
+    <script src="/assets/app.js?v=speech-retry-5"></script>
+  </body>
+</html>

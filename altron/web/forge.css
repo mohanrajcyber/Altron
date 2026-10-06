@@ -1,0 +1,121 @@
+:root {
+  --forge-red: #f0444f;
+  --forge-green: #65cf97;
+  --forge-amber: #e3b65d;
+  --forge-line: rgba(238, 241, 245, .12);
+  --forge-panel: #101216;
+  --forge-panel-alt: #15191e;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { min-height: 100%; background: #08090b; color: #eef1f5; font-family: "Rajdhani", "Segoe UI", sans-serif; }
+button, textarea { font: inherit; }
+.forge { min-height: 100vh; padding: 0 22px 28px; background: linear-gradient(180deg, rgba(75, 17, 24, .14), transparent 190px), #08090b; }
+.forge-top { height: 52px; display: flex; align-items: center; gap: 28px; border-bottom: 1px solid var(--forge-line); font: 11px "IBM Plex Mono", monospace; }
+.forge-brand { display: flex; align-items: center; gap: 9px; color: #fff; text-decoration: none; font-weight: 600; }
+.forge-mark { color: var(--forge-red); font-size: 24px; line-height: 1; }
+.forge-nav { align-self: stretch; display: flex; align-items: stretch; gap: 4px; }
+.forge-nav a { display: grid; place-items: center; min-width: 72px; padding: 0 12px; color: #9298a1; text-decoration: none; border-bottom: 2px solid transparent; }
+.forge-nav a:hover, .forge-nav a.selected { color: #fff; }
+.forge-nav a.selected { border-color: var(--forge-red); background: linear-gradient(180deg, rgba(240, 68, 79, .16), transparent); }
+.forge-system { margin-left: auto; display: flex; align-items: center; gap: 8px; color: #b9c2cc; font-size: 10px; }
+.forge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--forge-amber); }
+.forge-dot.online { background: var(--forge-green); }
+.forge-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; max-width: 1500px; margin: 0 auto; padding: 24px 2px 17px; }
+.forge-eyebrow, .forge-subtitle { margin: 0; color: #9199a3; font: 10px "IBM Plex Mono", monospace; }
+.forge-eyebrow { color: #c5a7aa; }
+.forge-heading h1 { margin: 5px 0 2px; font-size: 33px; line-height: 1; font-weight: 700; }
+.forge-heading h1 span { color: var(--forge-red); }
+.forge-subtitle { margin-top: 6px; font-family: "Rajdhani", sans-serif; font-size: 15px; }
+.forge-readiness { display: flex; align-items: center; gap: 12px; min-width: 205px; padding: 10px 14px; border: 1px solid var(--forge-line); background: rgba(16, 18, 22, .85); }
+.readiness-symbol { color: var(--forge-green); font: 24px "IBM Plex Mono", monospace; }
+.forge-readiness b, .forge-readiness small { display: block; }
+.forge-readiness b { font: 10px "IBM Plex Mono", monospace; }
+.forge-readiness small { margin-top: 4px; color: #8d959f; font: 11px "Rajdhani", sans-serif; }
+.forge-command { max-width: 1500px; margin: 0 auto 13px; padding: 14px 16px 10px; border: 1px solid rgba(240, 68, 79, .55); background: var(--forge-panel); box-shadow: 0 0 20px rgba(240, 68, 79, .07); }
+.forge-command label { display: block; margin-bottom: 9px; font-size: 15px; font-weight: 600; }
+.forge-command-row { display: grid; grid-template-columns: minmax(0, 1fr) 130px; gap: 12px; }
+.forge-command textarea { width: 100%; min-height: 54px; max-height: 170px; resize: vertical; padding: 10px 12px; border: 1px solid #323840; border-radius: 3px; outline: none; color: #eff2f5; background: #0b0d10; font: 13px "Rajdhani", sans-serif; }
+.forge-command textarea:focus { border-color: var(--forge-red); }
+.forge-actions { display: grid; gap: 7px; }
+.forge-actions button, .forge-file-actions button, .forge-result button { min-height: 34px; border: 1px solid var(--forge-red); border-radius: 3px; cursor: pointer; font: 10px "IBM Plex Mono", monospace; }
+.forge-build { color: white; background: #a91e2b; box-shadow: 0 0 13px rgba(240, 68, 79, .22); }
+.forge-build:hover { background: #c32b38; }
+.forge-build span { margin-right: 6px; }
+.forge-plan { color: #e1e4e8; background: transparent; border-color: #454b53 !important; }
+.forge-plan:hover { border-color: #939ba5 !important; }
+.forge-command-foot { min-height: 15px; display: flex; justify-content: space-between; gap: 12px; margin-top: 7px; color: #747d87; font: 9px "IBM Plex Mono", monospace; }
+#commandError { color: #ff8e96; }
+.forge-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: minmax(250px, 1.12fr) minmax(230px, .88fr) minmax(220px, .72fr); gap: 10px; align-items: stretch; }
+.forge-panel { min-width: 0; min-height: 305px; padding: 12px; border: 1px solid var(--forge-line); background: var(--forge-panel); }
+.panel-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--forge-line); color: #b7bec7; font: 10px "IBM Plex Mono", monospace; }
+.panel-head span:last-child { color: #777f89; }
+.forge-command-received { margin: 14px 0 10px; padding: 9px 10px; border-left: 2px solid var(--forge-red); background: rgba(240, 68, 79, .06); }
+.forge-command-received span { color: var(--forge-red); font: 9px "IBM Plex Mono", monospace; }
+.forge-command-received p { margin: 5px 0 0; color: #dce0e5; font-size: 14px; line-height: 1.25; }
+.forge-events, .forge-file-list, .forge-validation-list { list-style: none; margin: 0; padding: 0; }
+.forge-events { display: grid; gap: 9px; }
+.forge-events li { display: grid; grid-template-columns: 13px minmax(0, 1fr); gap: 8px; align-items: start; }
+.event-marker { width: 10px; height: 10px; margin-top: 3px; border: 1px solid #636c76; border-radius: 50%; }
+.forge-events li.running .event-marker { border-color: var(--forge-amber); box-shadow: 0 0 8px rgba(227, 182, 93, .35); }
+.forge-events li.passed .event-marker { border-color: var(--forge-green); background: var(--forge-green); }
+.forge-events li.failed .event-marker { border-color: var(--forge-red); background: var(--forge-red); }
+.forge-events b, .forge-events small { display: block; }
+.forge-events b { font-size: 13px; font-weight: 600; }
+.forge-events small { margin-top: 2px; color: #828b95; font-size: 11px; line-height: 1.25; }
+.event-idle b { color: #9ba3ad; font-weight: 500; }
+.forge-empty { margin: 15px 0; color: #838b94; font-size: 12px; }
+.forge-file-list { display: grid; gap: 2px; max-height: 205px; overflow: auto; }
+.forge-file-list button { width: 100%; display: flex; align-items: center; gap: 8px; padding: 6px 5px; border: 0; color: #dfe4e9; text-align: left; background: transparent; cursor: pointer; font: 12px "IBM Plex Mono", monospace; overflow-wrap: anywhere; }
+.forge-file-list button:hover { background: var(--forge-panel-alt); color: white; }
+.forge-file-icon { color: #83b9e8; }
+.forge-open-ide { color: #fff; background: #91202a; }
+.forge-run { color: #e8eee9; background: #15211b; border-color: rgba(101, 207, 151, .45) !important; }
+.forge-explain { color: #eee; background: transparent; border-color: #454b53 !important; }
+.forge-validation-list { display: grid; gap: 10px; padding-top: 13px; }
+.forge-validation-list li { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; gap: 6px; align-items: center; font-size: 12px; }
+.forge-validation-list b { color: #9299a3; font: 9px "IBM Plex Mono", monospace; }
+.forge-validation-list li.passed .validation-icon, .forge-validation-list li.passed b { color: var(--forge-green); }
+.forge-validation-list li.failed .validation-icon, .forge-validation-list li.failed b { color: var(--forge-red); }
+.forge-validation-list li.running .validation-icon, .forge-validation-list li.running b { color: var(--forge-amber); }
+.validation-detail { grid-column: 2 / -1; margin-top: -4px; color: #7f8893; font-size: 10px; }
+.forge-safety-note { margin: 16px 0 0; padding-top: 10px; border-top: 1px solid var(--forge-line); color: #7f8893; font-size: 11px; line-height: 1.3; }
+.forge-result { max-width: 1500px; margin: 12px auto 0; display: flex; align-items: center; gap: 16px; padding: 12px 14px; border: 1px solid rgba(101, 207, 151, .55); background: rgba(18, 37, 29, .55); }
+.result-stamp { color: var(--forge-green); font: 11px "IBM Plex Mono", monospace; }
+.forge-result h2 { margin: 0; font-size: 16px; }
+.forge-result p { margin: 3px 0 0; color: #9ba69f; font-size: 12px; }
+.forge-result button { margin-left: auto; padding: 0 12px; }
+.forge-result-actions { margin-left: auto; display: flex; flex-wrap: wrap; gap: 7px; }
+.forge-result-actions button { margin-left: 0; padding: 0 12px; }
+.forge-explanation { max-width: 1500px; margin: 12px auto 0; border: 1px solid var(--forge-line); background: var(--forge-panel); }
+.forge-explanation header { display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--forge-line); font: 10px "IBM Plex Mono", monospace; }
+.forge-explanation header button { border: 0; color: #bac0c8; background: transparent; cursor: pointer; font-size: 18px; }
+#explanationText { padding: 13px; color: #d9dde2; white-space: pre-wrap; line-height: 1.45; font-size: 14px; }
+.forge-return-banner { padding: 6px 18px; border-bottom: 1px solid rgba(101, 207, 151, .4); color: #65cf97; background: #101a15; font: 10px "IBM Plex Mono", monospace; }
+
+@media (max-width: 920px) {
+  .forge { padding: 0 14px 20px; }
+  .forge-top { gap: 12px; }
+  .forge-nav a { min-width: 52px; padding: 0 7px; font-size: 9px; }
+  .forge-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .forge-timeline { grid-row: span 2; }
+}
+@media (max-width: 620px) {
+  .forge-top { height: auto; min-height: 48px; flex-wrap: wrap; gap: 8px; padding: 7px 0; }
+  .forge-nav { order: 3; width: 100%; height: 32px; }
+  .forge-nav a { flex: 1; }
+  .forge-heading { align-items: flex-start; flex-direction: column; padding: 18px 1px 12px; }
+  .forge-heading h1 { font-size: 28px; }
+  .forge-readiness { width: 100%; }
+  .forge-command { padding: 11px; }
+  .forge-command-row { grid-template-columns: minmax(0, 1fr); }
+  .forge-actions { grid-template-columns: 1fr 1fr; }
+  .forge-grid { grid-template-columns: minmax(0, 1fr); }
+  .forge-panel { min-height: 0; }
+  .forge-timeline { grid-row: auto; min-height: 250px; }
+  .forge-files { min-height: 180px; }
+  .forge-validation { min-height: 190px; }
+  .forge-result { align-items: flex-start; flex-wrap: wrap; }
+  .forge-result-actions { width: 100%; margin-left: 0; }
+}

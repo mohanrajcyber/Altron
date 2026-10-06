@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ALTRON IDE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/ide-page.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
+  </head>
+  <body class="ide-standalone">
+    <div class="aid" id="idePanel">
+      <header class="aid-top">
+        <div class="aid-brand">
+          <span class="aid-mark" aria-hidden="true">✕</span>
+          <div>
+            <div class="aid-title">ALTRON IDE</div>
+            <div class="aid-tag">BUILD · CODE · AUTOMATE · EVOLVE</div>
+          </div>
+        </div>
+        <button class="aid-search" id="ideTopSearch" type="button" data-ide-cmd="quickOpen">
+          <span>Search files, symbols, commands…</span>
+          <kbd>Ctrl + P</kbd>
+        </button>
+        <div class="aid-actions">
+          <a class="aid-debug" href="/" title="Return to ALTRON chat">CHAT</a>
+          <button class="aid-run" type="button" data-ide-cmd="run" title="Run">▶ Run</button>
+          <button class="aid-stop" type="button" data-ide-cmd="stop" title="Stop">■</button>
+          <button class="aid-debug" type="button" data-ide-cmd="debug" title="Debug">🐞</button>
+          <button class="aid-debug" type="button" id="idePreviewBtn" title="HTML Preview">▣ Preview</button>
+        </div>
+        <div class="aid-profile">
+          <div class="aid-avatar">A</div>
+          <div>
+            <div class="aid-user">ALTRON</div>
+            <div class="aid-live" id="ideMeta">Think live…</div>
+          </div>
+          <span class="aid-free-badge" id="ideFreeBadge" title="Free AI path">FREE</span>
+        </div>
+      </header>
+
+      <div class="aid-body" id="ideBody">
+        <nav class="aid-activity" aria-label="Activity">
+          <button type="button" class="on" data-act-view="explorer" title="Explorer"><span>📁</span><i>Files</i></button>
+          <button type="button" data-act-view="search" title="Search"><span>⌕</span><i>Search</i></button>
+          <button type="button" data-act-view="git" title="Git"><span>⑂</span><i>Git</i></button>
+          <button type="button" data-act-view="run" title="Run"><span>▶</span><i>Run</i></button>
+          <button type="button" data-ide-cmd="palette" title="Commands"><span>⌘</span><i>Cmd</i></button>
+          <button type="button" id="ideSplitBtn" title="Split editor"><span>⧉</span><i>Split</i></button>
+          <span class="aid-act-spacer"></span>
+          <button type="button" data-act-view="settings" title="Settings"><span>⚙</span><i>Set</i></button>
+        </nav>
+
+        <aside class="aid-side" id="ideSide">
+          <div class="aid-side-panel" data-side="explorer">
+            <div class="ide-pane-label">
+              EXPLORER
+              <span class="ide-pane-tools">
+                <button class="ghost tiny" id="ideNewFile" type="button" title="New file">＋</button>
+                <button class="ghost tiny" id="ideNewFolder" type="button" title="New folder">▣</button>
+                <button class="ghost tiny" id="ideRefreshTree" type="button" title="Refresh">↻</button>
+              </span>
+            </div>
+            <div class="aid-ws-name">ALTRON</div>
+            <div class="aid-ws-path" id="ideWsPath">workspace</div>
+            <div class="ide-tree" id="ideTree">Loading…</div>
+          </div>
+          <div class="aid-side-panel" data-side="search" hidden>
+            <div class="ide-pane-label">SEARCH</div>
+            <input class="aid-side-input" id="ideSearchIn" type="text" placeholder="Search workspace (rg)…" />
+            <div class="aid-side-out ide-search-hits" id="ideSearchOut"></div>
+          </div>
+          <div class="aid-side-panel" data-side="git" hidden>
+            <div class="ide-pane-label">GIT <span id="ideGitBranch"></span></div>
+            <div class="ide-git-branches" id="ideGitBranches"></div>
+            <div class="ide-git-list" id="ideGitList"></div>
+            <div class="ide-git-actions">
+              <input id="ideGitMsg" type="text" placeholder="Commit message" />
+              <button class="ghost tiny" id="ideGitInit" type="button">Init</button>
+              <button class="ghost tiny" id="ideGitCommit" type="button">Commit</button>
+              <button class="ghost tiny" id="ideGitPull" type="button">Pull</button>
+              <button class="ghost tiny" id="ideGitPush" type="button">Push</button>
+            </div>
+          </div>
+          <div class="aid-side-panel" data-side="run" hidden>
+            <div class="ide-pane-label">RUN / DEBUG</div>
+            <p class="aid-hint">Run ▶ project · Debug 🐞 a .py file with real breakpoints (click gutter to set) + step-through · Output/Debug tabs show logs.</p>
+            <button class="aid-run block" type="button" data-ide-cmd="run">▶ Run Project</button>
+            <button class="aid-stop block" type="button" data-ide-cmd="stop">■ Stop</button>
+            <button class="aid-debug block" type="button" data-ide-cmd="debug">🐞 Debug Run</button>
+            <div class="ide-pane-label">DEBUG CONTROLS</div>
+            <div class="ide-debug-controls">
+              <button class="ghost tiny" type="button" data-dbg-cmd="continue" title="Continue">▶ Continue</button>
+              <button class="ghost tiny" type="button" data-dbg-cmd="next" title="Step over">⤼ Next</button>
+              <button class="ghost tiny" type="button" data-dbg-cmd="step" title="Step into">⤵ Step</button>
+              <button class="ghost tiny" type="button" data-dbg-cmd="where" title="Stack trace">☰ Where</button>
+              <button class="ghost tiny" type="button" data-dbg-cmd="stop" title="Stop debugger">■ Stop</button>
+            </div>
+            <input class="aid-side-input" id="ideDebugExpr" type="text" placeholder="Print expression (Enter)" />
+          </div>
+          <div class="aid-side-panel" data-side="settings" hidden>
+            <div class="ide-pane-label">SETTINGS</div>
+            <label class="aid-check"><input type="checkbox" id="ideAutosave" checked /> Autosave</label>
+            <label class="aid-field">Extra root (multi-root)
+              <input id="ideExtraRoot" type="text" placeholder="C:\path\to\other\project" />
+            </label>
+            <button class="ghost tiny" id="ideSavePrefs" type="button">Save prefs</button>
+            <div class="ide-pane-label">UNDO HISTORY</div>
+            <div class="ide-history" id="ideHistory"></div>
+            <p class="aid-hint">Shortcuts: Ctrl+P · Ctrl+Shift+P · Ctrl+S · Ctrl+` · Ctrl+\ split</p>
+          </div>
+        </aside>
+        <div class="aid-col-resize" id="ideSideResize" title="Resize sidebar"></div>
+
+        <section class="ide-center">
+          <div class="ide-tabs" id="ideTabs"></div>
+          <div class="ide-active-path" id="ideActivePath">no file</div>
+          <div class="ide-monaco-wrap" id="ideMonacoWrap">
+            <div class="ide-monaco" id="ideMonaco"></div>
+            <div class="ide-split-gutter" id="ideSplitGutter" hidden></div>
+            <div class="ide-monaco split" id="ideMonacoSplit" hidden></div>
+            <div class="ide-diff-overlay" id="ideDiffOverlay" hidden>
+              <div class="ide-diff-toolbar">
+                <span id="ideDiffPath">diff</span>
+                <button type="button" id="ideDiffApply">Apply</button>
+                <button type="button" id="ideDiffReject">Reject</button>
+                <button type="button" id="ideDiffClose">Close</button>
+              </div>
+              <div class="ide-diff-host" id="ideDiffHost"></div>
+            </div>
+          </div>
+          <div class="aid-resize" id="ideResize" title="Drag to resize terminal"></div>
+          <div class="ide-bottom" id="ideBottom">
+            <div class="ide-bottom-tabs">
+              <button type="button" class="on" data-bottom="terminal">Terminal</button>
+              <button type="button" data-bottom="problems">Problems <span id="ideProbCount">0</span></button>
+              <button type="button" data-bottom="output">Output</button>
+              <button type="button" data-bottom="debug">Debug Console</button>
+              <button type="button" data-bottom="preview">Preview</button>
+              <button type="button" class="ghost tiny" id="ideTermNew" title="New terminal">＋</button>
+            </div>
+            <div class="ide-bottom-body">
+              <div class="ide-term" id="ideTerm" data-pane="terminal"></div>
+              <pre class="ide-out" id="ideProblems" data-pane="problems" hidden>No problems.</pre>
+              <pre class="ide-out" id="ideOut" data-pane="output" hidden></pre>
+              <pre class="ide-out" id="ideDebug" data-pane="debug" hidden></pre>
+              <iframe class="ide-preview" id="idePreview" data-pane="preview" title="ALTRON Preview" hidden></iframe>
+            </div>
+          </div>
+        </section>
+
+        <div class="aid-col-resize" id="ideAgentResize" title="Resize agent"></div>
+        <aside class="ide-agent">
+          <div class="ide-pane-label">ALTRON AGENT
+            <span class="ide-pane-tools">
+              <button class="ghost tiny" id="ideUndoLast" type="button" title="Undo last agent write">↩ Undo</button>
+            </span>
+          </div>
+          <div class="ide-agent-modes" id="ideAgentModes">
+            <button type="button" class="on" data-mode="ASK">Chat</button>
+            <button type="button" data-mode="PLAN">Plan</button>
+            <button type="button" data-mode="EDIT">Edit</button>
+            <button type="button" data-mode="DEBUG">Debug</button>
+            <button type="button" data-mode="RUN">Run</button>
+          </div>
+          <div class="ide-mode-hint" id="ideModeHint">Chat · ask anything</div>
+          <div class="ide-agent-log" id="ideAgentLog">
+            <div class="aid-agent-welcome">
+              <strong>ALTRON AGENT · FREE AGI</strong><br />
+              One ask → diagnose → build → verify. Say what you need in any mix of Tamil/English.<br />
+              Example: <em>develop index.html small website youtube reference</em>
+            </div>
+          </div>
+          <div class="ide-diffs-bar" id="ideDiffsBar" hidden>
+            <span id="ideDiffsCount">0 edits</span>
+            <button type="button" id="ideViewDiffs">View</button>
+            <button type="button" id="ideApplyAllBar">Apply all</button>
+            <button type="button" id="ideRejectAll">Reject all</button>
+            <button type="button" id="ideUndoBar">↩ Undo</button>
+          </div>
+          <div class="ide-diffs" id="ideDiffs"></div>
+          <div class="ide-agent-compose">
+            <textarea id="ideAgentIn" rows="3" placeholder="Ask ALTRON anything about your code…"></textarea>
+            <div class="aid-agent-bar">
+              <span class="aid-chip">Workspace</span>
+              <button class="send" id="ideAgentSend" type="button">Send</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="ide-statusbar" id="ideStatusBar">
+        <span class="aid-sb-brand">ALTRON IDE</span>
+        <span id="ideSbState">Ready</span>
+        <span id="ideSbGit">Git</span>
+        <span class="aid-sb-grow"></span>
+        <span id="ideSbLang">—</span>
+        <span id="ideSbCursor">Ln —</span>
+        <span id="ideSbPath" class="aid-sb-path">workspace</span>
+      </footer>
+
+      <div class="ide-overlay" id="ideOverlay" hidden>
+        <div class="ide-palette" id="idePalette">
+          <input id="idePaletteIn" type="text" placeholder="Type a command or file…" autocomplete="off" />
+          <div class="ide-palette-list" id="idePaletteList"></div>
+        </div>
+      </div>
+      <div class="ide-ctx" id="ideCtx" hidden></div>
+      <button id="ideBtn" type="button" hidden></button>
+      <button id="ideClosePanel" type="button" hidden></button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.js"></script>
+    <script src="/assets/ide.js?v=forge-open-1"></script>
+    <script src="/assets/ide-features.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        window.AltronIDE?.init?.();
+      });
+    </script>
+  </body>
+</html>

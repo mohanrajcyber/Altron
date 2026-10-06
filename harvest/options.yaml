@@ -1,0 +1,77 @@
+# Harvested options (do not copy donor repos into the core)
+
+think:
+  source: LiteLLM NvidiaNimConfig + quantum-free-router nvidia-nim
+  openai_compatible: true
+  api_base: https://integrate.api.nvidia.com/v1
+  env_keys:
+    - NVIDIA_NIM_API_KEY
+    - NVIDIA_NIM_API_KEY_2
+    - NVIDIA_NIM_API_KEY_3
+  timeout_seconds: 90
+  max_retries: 1
+  default_model: nvidia/nemotron-3-super-120b-a12b
+  fallback_model: nvidia/nemotron-3-super-120b-a12b
+  harvested_nim_models:
+    - meta/llama-3.1-8b-instruct
+    - meta/llama-3.1-70b-instruct
+    - meta/llama-3.3-70b-instruct
+    - nvidia/nemotron-3-super-120b-a12b
+    - qwen/qwen3-next-80b-a3b-instruct
+
+brain:
+  source: LangGraph StateGraph (START -> nodes -> END) + AutoGPT loop
+  loop: remember -> plan -> think_or_act -> judge -> persist
+  checkpoint: in-process for v0, sqlite later from langgraph-checkpoint-sqlite
+
+memory:
+  source: Letta blocks + Mem0-shaped vectors + optional Qdrant :6333
+  core_block: identity
+  archival: data/memory.jsonl
+  vectors: data/vectors.jsonl
+  phase2: identity.json + JSONL survive restart
+  qdrant_url: http://127.0.0.1:6333
+
+face:
+  source: Open WebUI OpenAI-compatible client
+  altron_base: http://127.0.0.1:8088/v1
+  voice_later: LiveKit agents
+
+act:
+  source: MCP servers-main + browser-use Playwright + E2B + OpenHands + n8n webhook
+  tools:
+    - memory_write (+ vector index)
+    - open_tab / open_url / apps
+    - fs_list / fs_read / fs_write
+    - web_fetch / browser_use
+    - git_status / git_log
+    - code_run (E2B or local) / code_write
+    - job_enqueue (n8n webhook) / job_list
+    - graph_add / graph_search
+    - comfy_generate
+    - shutdown_request / shutdown_confirm
+  planner: regex fast-path + NVIDIA tool_choice auto + TOOL JSON fallback
+
+judge:
+  source: Future AGI traces + DSPy compile-from-failures
+  v0: heuristic critic
+  traces: data/traces.jsonl
+  compile: altron/adapters/dspy_compile.py
+
+voice:
+  source: LiveKit agents-main + Web Speech
+  default: browser mic + Hear TTS
+  livekit: LIVEKIT_URL / KEY / SECRET
+
+local_think:
+  source: pydantic-ai OllamaProvider
+  order: NVIDIA NIM -> Ollama :11434/v1 -> local stub
+
+packaging:
+  desktop: python -m altron app / pywebview
+  exe: scripts/build_exe.ps1 (PyInstaller)
+
+identity:
+  name: ALTRON
+  role: World-class AGI core
+  rule: harvest donors as adapters, never merge their trees

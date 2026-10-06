@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.env
+!.env.example
+data/*.jsonl
+data/*.db
+/data/*
+!/data/.gitkeep
+*.log
+scripts/_p3_final_acceptance_log.txt
+.DS_Store
+/build/
+/dist/

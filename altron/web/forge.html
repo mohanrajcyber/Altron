@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ALTRON // FORGE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="stylesheet" href="/assets/forge.css?v=cinematic-2" />
+  </head>
+  <body>
+    <main class="forge" id="forgeApp">
+      <header class="forge-top">
+        <a class="forge-brand" href="/" aria-label="ALTRON Chat">
+          <span class="forge-mark" aria-hidden="true">△</span>
+          <span>ALTRON</span>
+        </a>
+        <nav class="forge-nav" aria-label="ALTRON modules">
+          <a href="/ide" target="_blank" rel="noopener">IDE</a>
+          <a href="/flows" target="_blank" rel="noopener">FLOWS</a>
+          <a class="selected" href="/forge">FORGE</a>
+          <a href="/">THINK LIVE</a>
+        </nav>
+        <div class="forge-system"><span class="forge-dot" id="coreDot"></span><span id="coreState">CHECKING CORE</span></div>
+      </header>
+
+      <section class="forge-heading">
+        <div>
+          <p class="forge-eyebrow">BUILD · LEARN · TEST · DEPLOY</p>
+          <h1>ALTRON <span>// FORGE</span></h1>
+          <p class="forge-subtitle">Turn an idea into a real project in your trusted workspace.</p>
+        </div>
+        <div class="forge-readiness" aria-live="polite">
+          <span class="readiness-symbol" aria-hidden="true">◎</span>
+          <div><b id="agentState">AGENT IDLE</b><small id="workspaceState">Checking workspace…</small></div>
+        </div>
+      </section>
+
+      <form class="forge-command" id="forgeForm">
+        <label for="forgePrompt">What should ALTRON build?</label>
+        <div class="forge-command-row">
+          <textarea id="forgePrompt" rows="2" placeholder="Create a Python port scanner with a clean UI. Keep scans limited to localhost or an authorized lab target." required></textarea>
+          <div class="forge-actions">
+            <button class="forge-build" id="buildButton" type="submit"><span aria-hidden="true">↗</span> BUILD</button>
+            <button class="forge-plan" id="planButton" type="button">PLAN ONLY</button>
+          </div>
+        </div>
+        <div class="forge-command-foot"><span id="commandMeta">WORKSPACE BUILDS ARE CREATED IN A NEW FOLDER</span><span id="commandError" role="status"></span></div>
+      </form>
+
+      <section class="forge-grid" aria-label="Build activity">
+        <section class="forge-panel forge-timeline">
+          <header class="panel-head"><span>BUILD SEQUENCE</span><span id="runState">STANDING BY</span></header>
+          <div class="forge-command-received" id="receivedBlock">
+            <span>COMMAND RECEIVED</span>
+            <p id="receivedCommand">No build request yet.</p>
+            <dl class="forge-intent" id="intentSummary" hidden>
+              <div><dt>BUILD INTENT</dt><dd>DETECTED</dd></div>
+              <div><dt>LANGUAGE</dt><dd id="intentLanguage">Not specified</dd></div>
+              <div><dt>PROJECT</dt><dd id="intentProject">—</dd></div>
+              <div><dt>UI</dt><dd id="intentUi">Not specified</dd></div>
+            </dl>
+          </div>
+          <ol class="forge-events" id="eventList" aria-live="polite">
+            <li class="event-idle"><span class="event-marker"></span><div><b>Awaiting a build request</b><small>Chat, voice, and this workspace use the same ALTRON agent.</small></div></li>
+          </ol>
+        </section>
+
+        <section class="forge-panel forge-files">
+          <header class="panel-head"><span>CONFIRMED PROJECT FILES</span><span id="fileCount">0</span></header>
+          <p class="forge-empty" id="filesEmpty">Files appear here only after the IDE agent confirms they exist.</p>
+          <ul class="forge-file-list" id="fileList"></ul>
+        </section>
+
+        <section class="forge-panel forge-validation">
+          <header class="panel-head"><span>VALIDATION</span><span id="validationState">NOT RUN</span></header>
+          <ul class="forge-validation-list" id="validationList">
+            <li><span class="validation-icon">○</span><span>Project files</span><b>WAITING</b></li>
+            <li><span class="validation-icon">○</span><span>Python syntax</span><b>WAITING</b></li>
+            <li><span class="validation-icon">○</span><span>Generated tests</span><b>NOT RUN</b></li>
+            <li><span class="validation-icon">○</span><span>Security review</span><b>NOT RUN</b></li>
+          </ul>
+          <p class="forge-safety-note">Generated code is not executed automatically. Build results and syntax checks reflect actual workspace files.</p>
+        </section>
+      </section>
+
+      <section class="forge-result" id="resultPanel" hidden aria-live="polite">
+        <div class="result-stamp" id="resultStamp">BUILD COMPLETE</div>
+        <div><h2 id="resultTitle">Project</h2><p id="resultDetail"></p></div>
+        <div class="forge-result-actions" id="resultActions" hidden>
+          <button class="forge-open-ide" id="openIdeButton" type="button">OPEN IN IDE</button>
+          <button class="forge-run" id="runProjectButton" type="button">RUN</button>
+          <button class="forge-explain" id="resultExplain" type="button">EXPLAIN</button>
+        </div>
+      </section>
+
+      <section class="forge-explanation" id="explanationPanel" hidden>
+        <header><span>ALTRON · PROJECT EXPLANATION</span><button type="button" id="closeExplanation" aria-label="Close explanation">×</button></header>
+        <div id="explanationText"></div>
+      </section>
+    </main>
+    <script src="/assets/forge.js?v=handoff-1"></script>
+  </body>
+</html>

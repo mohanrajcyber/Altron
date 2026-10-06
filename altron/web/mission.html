@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ALTRON — Mission Control</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="stylesheet" href="/assets/mission.css" />
+  </head>
+  <body>
+    <div class="mc" id="mcApp">
+      <header class="mc-top">
+        <nav class="mc-nav">
+          <a href="/">Chat</a>
+          <a href="/ide" target="_blank" rel="noopener">IDE</a>
+          <a href="/flows" target="_blank" rel="noopener">Flows</a>
+          <a class="on" href="/mission-control">Mission Control</a>
+        </nav>
+        <div class="mc-brand">
+          <span class="mc-mark">◈</span>
+          <div>
+            <div class="mc-title">ALTRON MISSION CONTROL</div>
+            <div class="mc-sub" id="mcDatetime">—</div>
+          </div>
+        </div>
+        <div class="mc-header-stats">
+          <div class="mc-stat"><span class="mc-stat-label">SYSTEM</span><span class="mc-stat-val" id="mcSystemState">—</span></div>
+          <div class="mc-stat"><span class="mc-stat-label">MODEL</span><span class="mc-stat-val" id="mcModel">—</span></div>
+          <div class="mc-stat"><span class="mc-stat-label">CPU</span><span class="mc-stat-val" id="mcCpu">—</span></div>
+          <div class="mc-stat"><span class="mc-stat-label">RAM</span><span class="mc-stat-val" id="mcRam">—</span></div>
+          <div class="mc-stat"><span class="mc-stat-label">SECURITY</span><span class="mc-stat-val" id="mcSecurity">—</span></div>
+        </div>
+      </header>
+
+      <div class="mc-body">
+        <section class="mc-col mc-col-main">
+          <div class="mc-card">
+            <div class="mc-card-head">CURRENT MISSION</div>
+            <div class="mc-mission" id="mcMission">
+              <div class="mc-mission-title" id="mcMissionTitle">Loading…</div>
+              <div class="mc-mission-detail" id="mcMissionDetail"></div>
+              <div class="mc-progress-track" id="mcProgressTrack" hidden>
+                <div class="mc-progress-fill" id="mcProgressFill"></div>
+              </div>
+              <div class="mc-mission-meta" id="mcMissionMeta"></div>
+            </div>
+          </div>
+
+          <div class="mc-card">
+            <div class="mc-card-head">ACTIVE FLOWS</div>
+            <div class="mc-list" id="mcFlows"><div class="mc-empty">No active flow runs.</div></div>
+          </div>
+
+          <div class="mc-card">
+            <div class="mc-card-head">AUTONOMOUS GOAL</div>
+            <div class="mc-list" id="mcGoal"><div class="mc-empty">No goal executed yet.</div></div>
+          </div>
+
+          <div class="mc-card mc-card-grow">
+            <div class="mc-card-head">RECENT ACTIVITY</div>
+            <div class="mc-list mc-activity" id="mcActivity"><div class="mc-empty">No recent activity.</div></div>
+          </div>
+        </section>
+
+        <section class="mc-col mc-col-side">
+          <div class="mc-card">
+            <div class="mc-card-head">SYSTEM HEALTH</div>
+            <div class="mc-health" id="mcHealth"></div>
+          </div>
+
+          <div class="mc-card">
+            <div class="mc-card-head">SAFETY</div>
+            <div class="mc-list" id="mcSafety"><div class="mc-empty">No pending approvals.</div></div>
+          </div>
+
+          <div class="mc-card">
+            <div class="mc-card-head">INSIGHTS</div>
+            <div class="mc-list" id="mcInsights"><div class="mc-empty">—</div></div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="mc-bottom">
+        <span id="mcBackgroundMsg">Standing by…</span>
+        <span class="mc-foot-sep">·</span>
+        <span id="mcUpdatedAt">—</span>
+      </footer>
+    </div>
+    <script src="/assets/mission.js"></script>
+  </body>
+</html>

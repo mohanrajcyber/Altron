@@ -1,0 +1,23 @@
+# ALTRON IDE — Continue.dev config
+# Copy to: %USERPROFILE%\.continue\config.yaml  (or merge models section)
+# Face / API: http://127.0.0.1:8088
+
+name: ALTRON
+version: 1.0.0
+schema: v1
+models:
+  - name: ALTRON
+    provider: openai
+    model: altron
+    apiBase: http://127.0.0.1:8088/v1
+    apiKey: altron
+  - name: ALTRON-NIM
+    provider: openai
+    model: nvidia/nemotron-3-super-120b-a12b
+    apiBase: http://127.0.0.1:8088/v1
+    apiKey: altron
+  - name: Ollama-via-ALTRON
+    provider: openai
+    model: llama3.2:1b
+    apiBase: http://127.0.0.1:8088/v1
+    apiKey: altron
