@@ -4,6 +4,8 @@ Original AGI command core. Donor Git repos stay as references. This folder is th
 
 Face: `http://127.0.0.1:8088/` — custom command core (threads, inspector, mic, traces).
 
+**Project website:** https://mohanrajcyber.github.io/Altron/ (static project homepage; the interactive command core runs locally).
+
 **Commands:** [docs/CONTROL_GUIDE.md](docs/CONTROL_GUIDE.md) — YouTube · Browser · WhatsApp · desktop (all sticky controls).
 
 ## Run
